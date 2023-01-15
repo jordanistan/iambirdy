@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Photo Gallery</title>
+    <style>
+      /* center the image on the page */
+      img {
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <img id="photo" width="100%">
+    <br>
+    <button onclick="prevPhoto()">Previous</button>
+    <button onclick="nextPhoto()">Next</button>
+
+    <script>
+      // Array of image URLs
+      let photos = [
+        "https://photos.app.goo.gl/Fr4gvTdtPJwDuKMj9/photo1.jpg",
+        "https://photos.app.goo.gl/Fr4gvTdtPJwDuKMj9/photo2.jpg",
+        "https://photos.app.goo.gl/Fr4gvTdtPJwDuKMj9/photo3.jpg"
+      ];
+      
+      // Current photo index
+      let currentIndex = 0;
+
+      // Display the current photo
+      function displayPhoto() {
+        let img = document.getElementById("photo");
+        img.src = photos[currentIndex];
+      }
+
+      // Show the next photo
+      function nextPhoto() {
+        currentIndex++;
+        if (currentIndex >= photos.length) {
+          currentIndex = 0;
+        }
+        displayPhoto();
+      }
+
+      // Show the previous photo
+      function prevPhoto() {
+        currentIndex--;
+        if (currentIndex < 0) {
+          currentIndex = photos.length - 1;
+        }
+        displayPhoto();
+      }
+    </script>
+  </body>
+</html>
