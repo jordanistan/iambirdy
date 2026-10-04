@@ -11,3 +11,5 @@ Canonical production generator and photo-story intake: `jordanistan/illnetwork/p
 Fundraising: Jordan selected personal routine care and adventures. Draft and budget worksheet are in `jordanistan/illnetwork/.github/portfolio/birdy/GOFUNDME_DRAFT.md`; issue #48. No GoFundMe was created; add a donation link only after the owner supplies a reviewed, verified published URL. No fake amounts, emergencies, donation counts, payment widgets or promises.
 
 Local validation: shared/native JS syntax; existing 5 release tests; 37-page source preview artifact; 2-page Birdy production and native review artifacts; escaped gallery text and traversal/remote-image-path rejection. Remote workflow/deployment evidence belongs in central issue #47 after it is observed.
+
+Live deployment follow-up: old CSS/JS were still observed in the cloud browser after the new HTML deployed. Birdy builds now use content-hashed CSS/JS filenames, so changes select a fresh asset URL. Native staging regenerates the deck and versioned assets before copying the public artifact. Actual deployed controls will be rechecked after this fix.
