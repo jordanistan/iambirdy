@@ -1,3 +1,8 @@
 
 # Review output
 _review/
+__pycache__/
+# Owner-supplied full-resolution masters stay local. The public gallery contains
+# generated, metadata-free derivatives only.
+Birdy/
+Birdy-*.zip
