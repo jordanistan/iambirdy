@@ -25,7 +25,7 @@ class Page(HTMLParser):
         if 'style' in a: self.errors.append('Inline style')
         if tag in ('iframe','object','embed','form'): self.errors.append('Unexpected active embed/form')
         if tag=='input' and a.get('type') in ('password','file'): self.errors.append('Unexpected sensitive input')
-        key={'a':'href','link':'href','img':'src','script':'src'}.get(tag)
+        key={'a':'href','link':'href','img':'src','script':'src','video':'src','source':'src'}.get(tag)
         if key and a.get(key): self.refs.append(('canonical' if tag=='link' and a.get('rel')=='canonical' else tag,a[key]))
 
 
@@ -42,7 +42,7 @@ def check(root):
             if u.scheme or u.netloc:
                 if u.scheme not in ('https','mailto'): errors.append(f'{p.name}: unsafe scheme {u.scheme}')
                 if preview and u.scheme=='mailto': errors.append(f'{p.name}: live email in preview')
-                if tag in ('script','img','link') and not (tag=='img' and ref=='https://raw.githubusercontent.com/jordanistan/iambirdy/main/iambirdy.jpg'): errors.append(f'{p.name}: external resource {ref}')
+                if tag in ('script','img','link','video','source') and not (tag=='img' and ref=='https://raw.githubusercontent.com/jordanistan/iambirdy/main/iambirdy.jpg'): errors.append(f'{p.name}: external resource {ref}')
                 continue
             target=(root/u.path.lstrip('/')) if u.path.startswith('/') else (p.parent/unquote(u.path) if u.path else p)
             if target.is_dir(): target/='index.html'
@@ -63,6 +63,13 @@ def check(root):
                 for item in doc.iter():
                     if item.tag.endswith(('script','foreignObject')) or any(k.startswith('on') for k in item.attrib): errors.append(f'Active SVG in {p.name}')
             except ET.ParseError: errors.append(f'Malformed SVG {p.name}')
+        if p.suffix.lower() in {'.jpg','.jpeg','.png','.webp'}:
+            data=p.read_bytes()
+            markers=(b'Exif\x00\x00',b'<x:xmpmeta',b'http://ns.adobe.com/xap/',b'Photoshop 3.0',b'GPSInfo')
+            if any(marker in data for marker in markers):
+                errors.append(f'Embedded image metadata in {p.relative_to(root)}')
+            if p.suffix.lower()=='.webp' and any(chunk in data for chunk in (b'EXIF',b'XMP ',b'ICCP')):
+                errors.append(f'Metadata chunk in {p.relative_to(root)}')
     for e in errors: print(e,file=sys.stderr)
     print(f'Artifact check: {len(pages)} pages, {len(errors)} errors')
     return errors
