@@ -360,7 +360,7 @@ if (arcade) {
   const patterns = [
     {weight: 3, from: 0, make: x => { put('hydrant', x, GROUND - 12); return 10; }},
     {weight: 2, from: 0, make: x => { put('puddle', x, GROUND - 3); return 26; }},
-    {weight: 3, from: 0, make: x => { for (let i = 0; i < 5; i += 1) put('ball', x + i * 12, GROUND - 22 - Math.round(Math.sin(i / 4 * Math.PI) * 20)); return 60; }},
+    {weight: 3, from: 0, make: x => jumpArc(x)},
     {weight: 2, from: 0, make: x => { for (let i = 0; i < 4; i += 1) put('ball', x + i * 11, GROUND - 9); return 44; }},
     {weight: 2, from: 200, make: x => { put('squirrel', x, GROUND - 7, {vx: -0.7}); return 12; }},
     {weight: 2, from: 400, make: x => { put('bee', x, GROUND - 15, {phase: frame}); return 10; }},
@@ -370,6 +370,24 @@ if (arcade) {
     {weight: 1, from: 1100, make: x => { put('squirrel', x, GROUND - 7, {vx: -0.7}); put('squirrel', x + 34, GROUND - 7, {vx: -0.7}); return 46; }},
     {weight: 1, from: 500, make: x => { put('bench', x, GROUND - 26); put('gold', x + 17, GROUND - 74); for (let i = 0; i < 3; i += 1) put('ball', x + 8 + i * 12, GROUND - 34); return 46; }}
   ];
+  // Ball arcs trace Birdy's real jump (a quick tap) at the current speed, so one good jump collects them all.
+  const jumpArc = x => {
+    const speed = game.speed * (game.zoom ? 1.6 : 1);
+    const path = [];
+    let y = GROUND, vy = -4.6;
+    for (let t = 0; t < 120 && (t === 0 || y < GROUND); t += 1) {
+      if (t < 6) vy -= 0.22;
+      vy = Math.min(6, vy + 0.3);
+      y += vy;
+      path.push(Math.min(y, GROUND));
+    }
+    const span = path.length;
+    for (let i = 0; i < 5; i += 1) {
+      const t = Math.round(span * (0.18 + i * 0.16));
+      put('ball', x + Math.round(t * speed), Math.round(path[t] - 9));
+    }
+    return Math.round(span * speed) + 6;
+  };
   const spawn = () => {
     const x = W + 8;
     if (!game.zoom && game.score > 250 && Math.random() < 0.05) { put('pizza', x, GROUND - 40); return 30; }
@@ -638,7 +656,9 @@ if (arcade) {
     if (event.target.closest('button') && (event.key === ' ' || event.key === 'Enter')) return;
     if (JUMP_KEYS.includes(event.key)) { event.preventDefault(); if (!event.repeat) jump(); input.jump = true; }
     else if (DUCK_KEYS.includes(event.key)) { event.preventDefault(); input.duck = true; }
+    else if (event.key === 'Escape' && arcade.classList.contains('is-big')) { setBig(false); if (state === 'play') togglePause(); }
     else if (event.key === 'p' || event.key === 'P' || event.key === 'Escape') togglePause();
+    else if (event.key === 'f' || event.key === 'F') setBig(!isBig());
     else if (event.key === 'm' || event.key === 'M') { wakeAudio(); setSound(!soundOn); }
   });
   arcade.addEventListener('keyup', event => {
@@ -660,6 +680,28 @@ if (arcade) {
     ['pointerup', 'pointerleave', 'pointercancel'].forEach(name => button.addEventListener(name, () => { input[key] = false; }));
     button.addEventListener('click', event => { if (event.detail === 0 && press) press(); });
   };
+  // Big screen: real fullscreen where the browser allows it, otherwise the cabinet fills the window.
+  const bigButton = arcade.querySelector('[data-arcade-big]');
+  const isBig = () => document.fullscreenElement === arcade || arcade.classList.contains('is-big');
+  const syncBig = () => {
+    const big = isBig();
+    bigButton.setAttribute('aria-pressed', String(big));
+    bigButton.textContent = big ? '⛶ Exit big screen' : '⛶ Big screen';
+    document.documentElement.classList.toggle('arcade-open', arcade.classList.contains('is-big'));
+    canvas.focus({preventScroll: true});
+  };
+  const setBig = on => {
+    if (on && document.fullscreenEnabled && arcade.requestFullscreen) {
+      arcade.requestFullscreen().then(syncBig, () => { arcade.classList.add('is-big'); syncBig(); });
+    } else if (!on && document.fullscreenElement === arcade) {
+      document.exitFullscreen();
+    } else {
+      arcade.classList.toggle('is-big', on);
+      syncBig();
+    }
+  };
+  bigButton.addEventListener('click', () => setBig(!isBig()));
+  document.addEventListener('fullscreenchange', syncBig);
   hold('[data-arcade-jump]', 'jump', jump);
   hold('[data-arcade-duck]', 'duck', null);
   document.addEventListener('visibilitychange', () => { if (document.hidden && state === 'play') togglePause(); });
