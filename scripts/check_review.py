@@ -36,12 +36,11 @@ def check(root):
         for e in d.errors: errors.append(f'{p.relative_to(root)}: {e}')
         if not(d.lang and d.csp and d.h1==1 and d.title): errors.append(f'{p.relative_to(root)}: missing language/CSP/title or invalid H1 count')
     for p,d in pages.items():
-        preview='DESIGN REVIEW' in p.read_text()
         for tag,ref in d.refs:
             u=urlsplit(ref)
             if u.scheme or u.netloc:
                 if u.scheme not in ('https','mailto'): errors.append(f'{p.name}: unsafe scheme {u.scheme}')
-                if preview and u.scheme=='mailto': errors.append(f'{p.name}: live email in preview')
+                if u.scheme=='mailto': errors.append(f'{p.name}: live email address')
                 if tag in ('script','img','link','video','source') and not (tag=='img' and ref=='https://raw.githubusercontent.com/jordanistan/iambirdy/main/iambirdy.jpg'): errors.append(f'{p.name}: external resource {ref}')
                 continue
             target=(root/u.path.lstrip('/')) if u.path.startswith('/') else (p.parent/unquote(u.path) if u.path else p)

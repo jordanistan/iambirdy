@@ -10,6 +10,9 @@ import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / 'Birdy'
+# Unzipped "Download your information" export from @nerdy.dirty.birdy; optional.
+INSTAGRAM = ROOT / 'instagram'
+INSTAGRAM_MEDIA = ('media/posts', 'media/reels')
 DESTINATION = ROOT / 'site-assets' / 'gallery'
 MANIFEST = ROOT / 'birdy-gallery.json'
 IMAGES = {'.jpg', '.jpeg', '.png', '.webp', '.dng'}
@@ -24,6 +27,13 @@ def opaque_name(path: Path, extension: str) -> str:
     with path.open('rb') as source:
         digest = hashlib.file_digest(source, 'sha256').hexdigest()[:16]
     return f'birdy-{digest}.{extension}'
+
+
+def instagram_sources() -> list[Path]:
+    folders = [INSTAGRAM / folder for folder in INSTAGRAM_MEDIA]
+    return sorted((path for folder in folders if folder.is_dir() for path in folder.rglob('*')
+                   if path.is_file() and path.suffix.lower() in IMAGES | VIDEOS),
+                  key=lambda path: str(path.relative_to(INSTAGRAM)).casefold())
 
 
 def convert_image(source: Path, destination: Path) -> None:
@@ -48,7 +58,7 @@ def main() -> None:
     sources = [ROOT / 'iambirdy.jpg'] + sorted(
         (path for path in SOURCE.iterdir()
          if path.is_file() and path.suffix.lower() in IMAGES | VIDEOS),
-        key=lambda path: path.name.casefold())
+        key=lambda path: path.name.casefold()) + instagram_sources()
     manifest = []
     expected = set()
     for number, source in enumerate(sources, 1):
