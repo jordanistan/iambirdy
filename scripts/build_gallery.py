@@ -18,4 +18,4 @@ for extension in ('css', 'js'):
     pattern = r'site-assets/site(?:-[a-f0-9]{12})?\.' + extension + r'(?:\?[^"\s]*)?'
     updated = re.sub(pattern, 'site-assets/' + filename, updated)
 page.write_text(updated)
-print('Birdy photo deck rebuilt')
+print('Birdy photo wall rebuilt')

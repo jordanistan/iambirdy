@@ -40,48 +40,120 @@ if (workflow) {
   workflow.addEventListener('change', update); update();
 }
 
-// Scroll-snap photo deck: progressive enhancement, no autoplay or network calls.
-document.querySelectorAll('[data-photo-deck]').forEach(deck => {
-  const track = deck.querySelector('.photo-track');
-  const slides = [...track.querySelectorAll('.photo-slide')];
-  const previous = deck.querySelector('[data-deck-prev]');
-  const next = deck.querySelector('[data-deck-next]');
-  const status = deck.querySelector('[data-deck-status]');
-  let index = 0;
-  let settle;
+// Photo wall: thumbnails load in batches; the viewer opens full-size copies. No autoplay or network calls.
+const grid = document.querySelector('[data-gallery]');
+if (grid) {
+  const items = [...grid.querySelectorAll('.grid-item')];
+  const batch = Number(grid.dataset.batch) || 36;
+  const tools = document.querySelector('[data-gallery-tools]');
+  const more = document.querySelector('[data-gallery-more]');
+  const status = more.querySelector('[data-gallery-status]');
+  const nextBatch = more.querySelector('[data-gallery-next]');
+  let filter = 'all';
+  let limit = batch;
+  const matching = () => items.filter(item => filter === 'all' || item.dataset.kind === filter);
   const render = () => {
-    previous.disabled = index === 0;
-    next.disabled = index === slides.length - 1;
-    status.textContent = `Item ${index + 1} of ${slides.length}`;
+    const shown = matching();
+    items.forEach(item => { item.hidden = true; });
+    shown.slice(0, limit).forEach(item => { item.hidden = false; });
+    const count = Math.min(limit, shown.length);
+    status.textContent = `Showing ${count} of ${shown.length}`;
+    nextBatch.textContent = `Show ${Math.min(batch, shown.length - count)} more`;
+    more.querySelectorAll('button').forEach(button => { button.hidden = count >= shown.length; });
   };
-  const go = (target, smooth = true) => {
-    index = Math.max(0, Math.min(slides.length - 1, target));
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    track.scrollTo({left: slides[index].offsetLeft - slides[0].offsetLeft,
-      behavior: smooth && !reduced ? 'smooth' : 'auto'});
+  tools.addEventListener('click', event => {
+    const button = event.target.closest('button[data-gallery-filter]');
+    if (!button) return;
+    tools.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    filter = button.dataset.galleryFilter;
+    limit = batch;
     render();
-  };
-  previous.addEventListener('click', () => go(index - 1));
-  next.addEventListener('click', () => go(index + 1));
-  track.addEventListener('keydown', event => {
-    if (event.target !== track) return;
-    const targets = {ArrowLeft: index - 1, ArrowRight: index + 1,
-      Home: 0, End: slides.length - 1};
-    if (!(event.key in targets)) return;
-    event.preventDefault();
-    go(targets[event.key]);
   });
-  track.addEventListener('scroll', () => {
-    window.clearTimeout(settle);
-    settle = window.setTimeout(() => {
-      index = slides.reduce((nearest, slide, i) =>
-        Math.abs(slide.offsetLeft - slides[0].offsetLeft - track.scrollLeft) <
-        Math.abs(slides[nearest].offsetLeft - slides[0].offsetLeft - track.scrollLeft)
-          ? i : nearest, 0);
+  nextBatch.addEventListener('click', () => {
+    const first = matching()[limit];
+    limit += batch;
+    render();
+    if (first) first.querySelector('a').focus();
+  });
+  more.querySelector('[data-gallery-all]').addEventListener('click', () => { limit = items.length; render(); });
+
+  const box = document.querySelector('[data-lightbox]');
+  const stage = box.querySelector('[data-lightbox-stage]');
+  const caption = box.querySelector('[data-lightbox-caption]');
+  const counter = box.querySelector('[data-lightbox-count]');
+  const original = box.querySelector('[data-lightbox-open]');
+  let sequence = [];
+  let index = 0;
+  let opener = null;
+  const show = target => {
+    index = (target + sequence.length) % sequence.length;
+    const link = sequence[index].querySelector('a');
+    const thumb = link.querySelector('img');
+    let media;
+    if (link.dataset.type === 'video') {
+      media = document.createElement('video');
+      media.controls = true;
+      media.playsInline = true;
+      media.preload = 'metadata';
+      media.poster = thumb.getAttribute('src');
+      media.src = link.getAttribute('href');
+      media.setAttribute('aria-label', thumb.alt);
+    } else {
+      media = document.createElement('img');
+      media.src = link.getAttribute('href');
+      media.alt = thumb.alt;
+    }
+    stage.replaceChildren(media);
+    caption.textContent = link.dataset.caption;
+    counter.textContent = `${index + 1} of ${sequence.length}`;
+    original.href = link.getAttribute('href');
+  };
+  const open = item => {
+    if (!matching().includes(item)) {
+      filter = 'all';
+      tools.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.galleryFilter === 'all')));
       render();
-    }, 150);
-  }, {passive: true});
-  window.addEventListener('resize', () => go(index, false));
+    }
+    sequence = matching();
+    opener = document.activeElement;
+    show(sequence.indexOf(item));
+    box.showModal();
+  };
+  grid.addEventListener('click', event => {
+    const link = event.target.closest('a.grid-thumb');
+    if (!link || event.metaKey || event.ctrlKey || event.shiftKey) return;
+    event.preventDefault();
+    open(link.closest('.grid-item'));
+  });
+  // Photos placed elsewhere on the page open the same viewer.
+  document.querySelectorAll('a[data-gallery-src]').forEach(link => link.addEventListener('click', event => {
+    const item = items.find(entry => entry.querySelector('a').getAttribute('href') === link.dataset.gallerySrc);
+    if (!item || event.metaKey || event.ctrlKey || event.shiftKey) return;
+    event.preventDefault();
+    open(item);
+  }));
+  box.querySelector('[data-lightbox-prev]').addEventListener('click', () => show(index - 1));
+  box.querySelector('[data-lightbox-next]').addEventListener('click', () => show(index + 1));
+  box.querySelector('[data-lightbox-close]').addEventListener('click', () => box.close());
+  box.addEventListener('click', event => { if (event.target === box) box.close(); });
+  box.addEventListener('keydown', event => {
+    if (event.target.closest('video')) return;
+    if (event.key === 'ArrowLeft') { event.preventDefault(); show(index - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); show(index + 1); }
+  });
+  let startX = null;
+  stage.addEventListener('pointerdown', event => { startX = event.target.closest('video') ? null : event.clientX; });
+  stage.addEventListener('pointerup', event => {
+    if (startX === null) return;
+    const distance = event.clientX - startX;
+    startX = null;
+    if (Math.abs(distance) > 50) show(index + (distance < 0 ? 1 : -1));
+  });
+  box.addEventListener('close', () => {
+    stage.replaceChildren();
+    if (opener) opener.focus();
+  });
+  tools.hidden = false;
+  more.hidden = false;
   render();
-  deck.querySelector('[data-deck-controls]').hidden = false;
-});
+}

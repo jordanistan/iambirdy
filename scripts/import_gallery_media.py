@@ -16,6 +16,7 @@ INSTAGRAM = ROOT / 'instagram'
 INSTAGRAM_INDEXES = ('posts.json', 'posts_1.json', 'reels.json')
 INSTAGRAM_DELETED = 'recently_deleted_content.json'
 DESTINATION = ROOT / 'site-assets' / 'gallery'
+THUMBNAILS = DESTINATION / 'thumbs'
 MANIFEST = ROOT / 'birdy-gallery.json'
 IMAGES = {'.jpg', '.jpeg', '.png', '.webp', '.dng'}
 VIDEOS = {'.mp4', '.mov', '.m4v', '.webm'}
@@ -79,12 +80,29 @@ def convert_video(source: Path, destination: Path) -> None:
          '-c:a', 'aac', '-b:a', '96k', '-movflags', '+faststart', str(destination)])
 
 
+
+def make_thumbnail(destination: Path, thumbnail: Path, is_video: bool) -> None:
+    """Small grid preview, built from the already-stripped public copy."""
+    resize = ['-auto-orient', '-strip', '-resize', '600x600>', '-quality', '70', str(thumbnail)]
+    if not is_video:
+        run(['magick', str(destination)] + resize)
+        return
+    for offset in ('1', '0'):
+        frame = subprocess.run(['ffmpeg', '-nostdin', '-hide_banner', '-loglevel', 'error',
+                                '-ss', offset, '-i', str(destination), '-frames:v', '1',
+                                '-f', 'image2pipe', '-c:v', 'png', '-'], check=True, capture_output=True).stdout
+        if frame:
+            subprocess.run(['magick', 'png:-'] + resize, input=frame, check=True)
+            return
+    raise SystemExit(f'No frame found for {destination.name}')
+
+
 def main() -> None:
     if not SOURCE.is_dir():
         raise SystemExit(f'Missing local source folder: {SOURCE}')
     if not shutil.which('magick') or not shutil.which('ffmpeg'):
         raise SystemExit('ImageMagick and ffmpeg are required')
-    DESTINATION.mkdir(parents=True, exist_ok=True)
+    THUMBNAILS.mkdir(parents=True, exist_ok=True)
     sources = [ROOT / 'iambirdy.jpg'] + sorted(
         (path for path in SOURCE.iterdir()
          if path.is_file() and path.suffix.lower() in IMAGES | VIDEOS),
@@ -101,12 +119,16 @@ def main() -> None:
         if not destination.exists():
             print(f'[{number}/{len(sources)}] {"video" if is_video else "image"}: {source.name}', flush=True)
             (convert_video if is_video else convert_image)(source, destination)
+        thumbnail = THUMBNAILS / (destination.stem + '.webp')
+        if not thumbnail.exists():
+            make_thumbnail(destination, thumbnail, is_video)
         is_hero = source == ROOT / 'iambirdy.jpg'
         from_instagram = source.is_relative_to(INSTAGRAM.resolve())
         kind = 'video' if is_video else 'photo'
         manifest.append({
             'src': f'site-assets/gallery/{filename}',
             'type': 'video' if is_video else 'image',
+            'thumb': f'site-assets/gallery/thumbs/{thumbnail.name}',
             'alt': ("Birdy, a speckled brown and white dog wearing a pink collar, looking toward the camera outdoors"
                     if is_hero else f"{kind.capitalize()} from Birdy's Instagram" if from_instagram
                     else "Video from Birdy's collection" if is_video
@@ -118,6 +140,9 @@ def main() -> None:
         })
     for stale in DESTINATION.iterdir():
         if stale.is_file() and stale.name not in expected:
+            stale.unlink()
+    for stale in THUMBNAILS.iterdir():
+        if stale.is_file() and stale.stem + '.webp' not in expected and stale.stem + '.mp4' not in expected:
             stale.unlink()
     MANIFEST.write_text(json.dumps(manifest, indent=2) + '\n')
     print(f'Prepared {len(manifest)} metadata-free gallery items')
