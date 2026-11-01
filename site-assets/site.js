@@ -250,7 +250,7 @@ if (arcade) {
   let state = 'title', best = 0, frame = 0, last = 0, acc = 0, shake = 0;
   let game;
   const reset = () => {
-    game = {score: 0, distance: 0, speed: 1.8, lives: 3, combo: 0, balls: 0, items: [], parts: [], pops: [],
+    game = {score: 0, distance: 0, speed: 1.5, lives: 3, combo: 0, balls: 0, items: [], parts: [], pops: [],
       nextSpawn: 90, stage: 0, banner: 150, zoom: 0, invuln: 0, newBest: false,
       dog: {y: GROUND, vy: 0, ground: true, jumps: 0, hold: 0, duck: false, ledge: null}};
   };
@@ -372,7 +372,7 @@ if (arcade) {
   ];
   // Ball arcs trace Birdy's real jump (a quick tap) at the current speed, so one good jump collects them all.
   const jumpArc = x => {
-    const speed = game.speed * (game.zoom ? 1.6 : 1);
+    const speed = game.speed * (game.zoom ? 1.4 : 1);
     const path = [];
     let y = GROUND, vy = -4.6;
     for (let t = 0; t < 120 && (t === 0 || y < GROUND); t += 1) {
@@ -424,8 +424,8 @@ if (arcade) {
     if (shake) shake -= 1;
     if (state !== 'play') return;
     const dog = game.dog;
-    const speed = game.speed * (game.zoom ? 1.6 : 1);
-    game.speed = Math.min(4, game.speed + 0.0008);
+    const speed = game.speed * (game.zoom ? 1.4 : 1);
+    game.speed = Math.min(3.2, game.speed + 0.0004);
     game.distance += speed;
     game.score += speed * 0.08;
     if (game.zoom) game.zoom -= 1;
