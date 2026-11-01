@@ -147,3 +147,23 @@
 .arcade-cabinet:fullscreen>*,.arcade-cabinet.is-big>*{width:min(100%,calc((100dvh - 200px) * 192 / 168 + 16px));margin-left:auto;margin-right:auto}
 html.arcade-open,html.arcade-open body{overflow:hidden}
 @media(max-width:900px){.arcade-copy{grid-template-columns:1fr}.arcade-copy .arcade-keys{grid-column:1;grid-row:auto;margin-top:18px}.arcade-cabinet{max-width:none}}
+
+/* Birdy's Zoomies scoreboard and initials entry */
+.arcade-copy .arcade-keys{grid-column:1;grid-row:auto;margin-top:22px}
+.scoreboard{grid-column:2;grid-row:1/span 5;align-self:start;background:#0f0819;border:3px solid #ffd23c;border-radius:18px;padding:20px 22px;box-shadow:0 0 24px rgba(255,210,60,.35)}
+.scoreboard h3{margin:0 0 12px;text-align:center;font:800 1rem ui-monospace,monospace;letter-spacing:.2em;color:#ffd23c;text-transform:uppercase}
+.scoreboard ol{margin:0;padding:0;list-style:none;counter-reset:rank;font:700 1rem ui-monospace,monospace}
+.scoreboard li{counter-increment:rank;display:grid;grid-template-columns:2.2em 1fr auto;gap:10px;padding:5px 8px;border-radius:8px;color:#f7ecff}
+.scoreboard li::before{content:counter(rank) '.';color:#9d86b5}
+.scoreboard li:nth-child(1){color:#ffd23c}.scoreboard li:nth-child(2){color:#e8e8f2}.scoreboard li:nth-child(3){color:#ff9a3d}
+.scoreboard li.is-you{background:var(--accent);color:#fff}
+.scoreboard li.is-you::before{color:#fff}
+.scoreboard .micro{color:#cdb9df;margin:12px 0 0}
+.scoreboard a{color:#fff}
+.initials{margin-top:14px;background:#1b0f2b;border:3px solid #ffd23c;border-radius:14px;padding:14px;text-align:center;color:#fff}
+.initials label{display:block;font:800 .95rem ui-monospace,monospace;letter-spacing:.08em;color:#ffd23c;margin-bottom:10px;text-transform:uppercase}
+.initials-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.initials input{width:6.2em;text-align:center;font:800 1.6rem ui-monospace,monospace;letter-spacing:.3em;text-transform:uppercase;padding:6px 4px 6px 12px;border-radius:10px;border:3px solid #fff;background:#000;color:#ffd23c}
+.initials input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.initials .micro{color:#ffc2da;margin:8px 0 0;max-width:none}
+@media(max-width:900px){.scoreboard{grid-column:1;grid-row:auto;margin-top:24px}}

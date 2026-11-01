@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 class Page(HTMLParser):
     def __init__(self):
-        super().__init__(); self.ids=set(); self.refs=[]; self.errors=[]; self.csp=False; self.lang=False; self.h1=0; self.title=False
+        super().__init__(); self.ids=set(); self.refs=[]; self.errors=[]; self.csp=False; self.connect=None; self.scoreboards=set(); self.lang=False; self.h1=0; self.title=False
     def handle_starttag(self,tag,attrs):
         a=dict(attrs)
         if tag=='html': self.lang=a.get('lang')=='en'
@@ -19,7 +19,10 @@ class Page(HTMLParser):
             self.ids.add(a['id'])
         if tag=='meta' and a.get('http-equiv','').lower()=='content-security-policy':
             self.csp=True
+            directive=re.search(r'connect-src ([^;]+)',a.get('content',''))
+            self.connect=directive.group(1).strip() if directive else None
             if "'unsafe-inline'" in a.get('content','') or "'unsafe-eval'" in a.get('content',''): self.errors.append('Unsafe CSP')
+        if a.get('data-scoreboard'): self.scoreboards.add(a['data-scoreboard'])
         if any(k.lower().startswith('on') for k in a): self.errors.append('Inline event handler')
         if tag=='script' and not a.get('src'): self.errors.append('Inline script')
         if 'style' in a: self.errors.append('Inline style')
@@ -34,6 +37,9 @@ def check(root):
     for p in root.rglob('*.html'):
         d=Page(); d.feed(p.read_text()); pages[p]=d
         for e in d.errors: errors.append(f'{p.relative_to(root)}: {e}')
+        # Network access is limited to the scoreboard API named on the same page, and only over HTTPS.
+        allowed={"'none'"}|{'{0.scheme}://{0.netloc}'.format(urlsplit(u)) for u in d.scoreboards if urlsplit(u).scheme=='https'}
+        if d.connect not in allowed: errors.append(f'{p.relative_to(root)}: connect-src must be none or the page scoreboard origin')
         if not(d.lang and d.csp and d.h1==1 and d.title): errors.append(f'{p.relative_to(root)}: missing language/CSP/title or invalid H1 count')
     for p,d in pages.items():
         for tag,ref in d.refs:
@@ -55,7 +61,7 @@ def check(root):
         if not p.is_file(): continue
         if p.suffix=='.js':
             js=p.read_text()
-            if re.search(r'\b(eval|fetch|localStorage|sessionStorage)\b|innerHTML|document\.write|new Function',js): errors.append(f'Unsafe JS sink/network/storage in {p.name}')
+            if re.search(r'\b(eval|localStorage|sessionStorage|XMLHttpRequest|WebSocket|sendBeacon)\b|innerHTML|document\.write|new Function',js): errors.append(f'Unsafe JS sink/network/storage in {p.name}')
         if p.suffix=='.svg':
             try:
                 doc=ET.parse(p)

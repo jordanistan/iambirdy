@@ -1,0 +1,15 @@
+name = "birdy-scores"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "birdy-scores"
+database_id = "859c940b-fa1f-441f-b3e8-7319faf5ac5d"
+
+# Cloudflare counts requests per visitor without storing their address.
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "4271"
+simple = { limit = 6, period = 60 }

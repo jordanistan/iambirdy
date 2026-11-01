@@ -250,7 +250,7 @@ if (arcade) {
   let state = 'title', best = 0, frame = 0, last = 0, acc = 0, shake = 0;
   let game;
   const reset = () => {
-    game = {score: 0, distance: 0, speed: 1.5, lives: 3, combo: 0, balls: 0, items: [], parts: [], pops: [],
+    game = {frames: 0, score: 0, distance: 0, speed: 1.5, lives: 3, combo: 0, balls: 0, items: [], parts: [], pops: [],
       nextSpawn: 90, stage: 0, banner: 150, zoom: 0, invuln: 0, newBest: false,
       dog: {y: GROUND, vy: 0, ground: true, jumps: 0, hold: 0, duck: false, ledge: null}};
   };
@@ -318,9 +318,79 @@ if (arcade) {
   soundButton.addEventListener('click', () => { wakeAudio(); setSound(!soundOn); });
 
   const announce = message => { status.textContent = message; };
+
+  // Shared scoreboard: talks only to the one origin named on the page, which the page's CSP also allows.
+  const boardUrl = arcade.dataset.scoreboard;
+  const boardPanel = document.querySelector('[data-scoreboard-panel]');
+  const boardList = boardPanel.querySelector('[data-scoreboard-list]');
+  const boardNote = boardPanel.querySelector('[data-scoreboard-note]');
+  const entry = arcade.querySelector('[data-initials]');
+  const initialsInput = entry.querySelector('input');
+  const saveButton = entry.querySelector('[data-initials-save]');
+  const entryNote = entry.querySelector('[data-initials-note]');
+  let leaders = [], highlight = -1, pending = null;
+  const showBoard = () => {
+    boardList.replaceChildren(...leaders.map((row, i) => {
+      const item = document.createElement('li');
+      if (i === highlight) item.className = 'is-you';
+      const name = document.createElement('span');
+      const points = document.createElement('span');
+      name.textContent = row.initials;
+      points.textContent = row.score.toLocaleString('en-US');
+      item.append(name, points);
+      return item;
+    }));
+    boardNote.textContent = leaders.length ? '' : 'No scores yet. Be the first good girl on the board!';
+  };
+  const loadBoard = () => {
+    if (!boardUrl) return;
+    fetch(boardUrl, {mode: 'cors', credentials: 'omit'})
+      .then(response => (response.ok ? response.json() : Promise.reject(response.status)))
+      .then(data => { leaders = data.scores || []; showBoard(); },
+        () => { boardNote.textContent = 'The scoreboard is napping. Scores will show up again soon.'; });
+  };
+  const qualifies = score => Boolean(boardUrl) && score > 0 && (leaders.length < 10 || score > leaders[leaders.length - 1].score);
+  const offerInitials = () => {
+    const score = Math.floor(game.score);
+    if (!qualifies(score)) return;
+    pending = {score, balls: game.balls, frames: game.frames};
+    initialsInput.value = '';
+    entryNote.textContent = '';
+    entry.hidden = false;
+    window.setTimeout(() => { initialsInput.focus({preventScroll: true}); entry.scrollIntoView({block: 'nearest', behavior: calm ? 'auto' : 'smooth'}); }, 60);
+  };
+  const save = () => {
+    const initials = initialsInput.value;
+    if (!pending || initials.length !== 3) { entryNote.textContent = 'Three letters, please.'; return; }
+    saveButton.disabled = true;
+    fetch(boardUrl, {method: 'POST', mode: 'cors', credentials: 'omit', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(Object.assign({initials}, pending))})
+      .then(response => response.json().then(data => (response.ok ? data : Promise.reject(data.error || 'error'))))
+      .then(data => {
+        leaders = data.scores;
+        highlight = data.rank <= 10 ? data.rank - 1 : -1;
+        showBoard();
+        pending = null;
+        entry.hidden = true;
+        announce(`Saved! ${initials} is number ${data.rank} on the scoreboard. Press Space or tap to play again.`);
+        canvas.focus({preventScroll: true});
+      }, error => {
+        entryNote.textContent = typeof error === 'string' ? `Couldn’t save: ${error}.` : 'Couldn’t reach the scoreboard. Try again in a moment.';
+      })
+      .finally(() => { saveButton.disabled = false; });
+  };
+  initialsInput.addEventListener('input', () => { initialsInput.value = initialsInput.value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 3); });
+  initialsInput.addEventListener('keydown', event => { if (event.key === 'Enter') { event.preventDefault(); save(); } });
+  saveButton.addEventListener('click', save);
+  boardPanel.hidden = !boardUrl;
+  loadBoard();
   const start = () => {
     wakeAudio();
     reset();
+    pending = null;
+    entry.hidden = true;
+    highlight = -1;
+    loadBoard();
     state = 'play';
     step = 0;
     announce('Game on. Space or tap to jump, twice for a double jump. Down arrow to duck.');
@@ -413,7 +483,8 @@ if (arcade) {
       game.newBest = game.score > best;
       best = Math.max(best, Math.floor(game.score));
       sfx.over();
-      announce(`Game over. Score ${Math.floor(game.score)}. Best ${best}. Birdy caught ${game.balls} tennis balls. Press Space or tap to play again.`);
+      offerInitials();
+      announce(`Game over.${pending ? ' New high score! Type your initials below to join the scoreboard.' : ''} Score ${Math.floor(game.score)}. Best ${best}. Birdy caught ${game.balls} tennis balls. Press Space or tap to play again.`);
     } else {
       announce(`Ouch! ${game.lives} ${game.lives === 1 ? 'heart' : 'hearts'} left.`);
     }
@@ -423,6 +494,7 @@ if (arcade) {
     frame += 1;
     if (shake) shake -= 1;
     if (state !== 'play') return;
+    game.frames += 1;
     const dog = game.dog;
     const speed = game.speed * (game.zoom ? 1.4 : 1);
     game.speed = Math.min(3.2, game.speed + 0.0004);
@@ -603,8 +675,13 @@ if (arcade) {
       ctx.fillStyle = 'rgba(43,22,56,.55)'; ctx.fillRect(8, 16, W - 16, 106);
       text("BIRDY'S", W / 2, 24, '#ffd23c', 3, 'center', '#2b1638');
       text('ZOOMIES!', W / 2, 46, '#ff3d8b', 4, 'center', '#2b1638');
-      text('JUMP TWICE  DUCK BEES  STOMP SQUIRRELS', W / 2, 78, '#ffffff', 1, 'center');
-      text('GRAB PIZZA FOR RAINBOW ZOOMIES', W / 2, 88, '#ffd34d', 1, 'center');
+      if (leaders.length && Math.floor(frame / 300) % 2) {
+        text('HIGH SCORES', W / 2, 74, '#d7f53c', 1, 'center');
+        leaders.slice(0, 3).forEach((row, i) => text(`${i + 1}. ${row.initials}  ${String(row.score).padStart(6, '0')}`, W / 2, 82 + i * 7, ['#ffd23c', '#ffffff', '#ff9a3d'][i], 1, 'center'));
+      } else {
+        text('JUMP TWICE  DUCK BEES  STOMP SQUIRRELS', W / 2, 78, '#ffffff', 1, 'center');
+        text('GRAB PIZZA FOR RAINBOW ZOOMIES', W / 2, 88, '#ffd34d', 1, 'center');
+      }
       if (Math.floor(frame / 30) % 2 === 0) text('PRESS SPACE OR TAP TO PLAY', W / 2, 104, '#ffffff', 1, 'center');
       if (best) text('BEST ' + best, W / 2, 114, '#d7f53c', 1, 'center');
       drawDog(BIRDY_X + Math.round(Math.sin(frame / 40) * 20) + 50, GROUND, Math.floor(frame / 50) % 4 === 3 ? 'jump' : 'run');
@@ -634,7 +711,8 @@ if (arcade) {
       text('SCORE ' + Math.floor(game.score), W / 2, 64, '#ffffff', 1, 'center');
       text('BALLS CAUGHT ' + game.balls, W / 2, 74, '#d7f53c', 1, 'center');
       text('BEST ' + best, W / 2, 84, '#ffd23c', 1, 'center');
-      if (game.newBest && Math.floor(frame / 15) % 2 === 0) text('NEW BEST!', W / 2, 96, '#3db8ff', 2, 'center');
+      if (pending && Math.floor(frame / 15) % 2 === 0) text('HIGH SCORE! ENTER INITIALS', W / 2, 98, '#3db8ff', 1, 'center');
+      else if (!pending && game.newBest && Math.floor(frame / 15) % 2 === 0) text('NEW BEST!', W / 2, 96, '#3db8ff', 2, 'center');
       if (frame > 20 && Math.floor(frame / 30) % 2 === 0) text('SPACE OR TAP TO PLAY AGAIN', W / 2, 120, '#ffffff', 1, 'center');
     }
     ctx.restore();
@@ -653,6 +731,7 @@ if (arcade) {
   const JUMP_KEYS = [' ', 'ArrowUp', 'w', 'W', 'z', 'Z', 'Enter'];
   const DUCK_KEYS = ['ArrowDown', 's', 'S'];
   arcade.addEventListener('keydown', event => {
+    if (event.target.closest('input')) return;
     if (event.target.closest('button') && (event.key === ' ' || event.key === 'Enter')) return;
     if (JUMP_KEYS.includes(event.key)) { event.preventDefault(); if (!event.repeat) jump(); input.jump = true; }
     else if (DUCK_KEYS.includes(event.key)) { event.preventDefault(); input.duck = true; }
@@ -662,6 +741,7 @@ if (arcade) {
     else if (event.key === 'm' || event.key === 'M') { wakeAudio(); setSound(!soundOn); }
   });
   arcade.addEventListener('keyup', event => {
+    if (event.target.closest('input')) return;
     if (JUMP_KEYS.includes(event.key)) input.jump = false;
     if (DUCK_KEYS.includes(event.key)) input.duck = false;
   });
