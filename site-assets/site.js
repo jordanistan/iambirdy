@@ -223,6 +223,8 @@ if (arcade) {
     gold: sprite(['ww......ww', 'wwwwwwwwww', '.wwwwwwww.', 'wwwwwwwwww', 'oo......oo'], {w: '#ffe04a', o: '#d89a12'}),
     pizza: sprite(['ccccccccc', '.yyyyyyy.', '.yryyyry.', '..yyyyy..', '..yyryy..', '...yyy...', '...yry...', '....y....'],
       {c: '#c9771f', y: '#ffd34d', r: '#e0362f'}),
+    taco: sprite(['..gl.lg.l..', '.glrlgrlgl.', 'YglrlrglglY', 'YyyyyyyyyyY', '.YyyyyyyyY.', '..YYYYYYY..'],
+      {y: '#f2b33d', Y: '#c98a1e', g: '#3fbf4a', l: '#9be34d', r: '#e0362f'}),
     heart: sprite(['.pp.pp.', 'ppppppp', 'ppwpppp', '.ppppp.', '..ppp..', '...p...'], {p: '#ff3d8b', w: '#ffc2da'}),
     hydrant: sprite(['..rrrr..', '.rrrrrr.', '..RRRR..', '..rrrr..', 'srrrrrrs', 'srrrrrrs', '..rrrr..', '..rRrr..',
       '..rrrr..', '..rrrr..', '.RRRRRR.', '.RRRRRR.'], {r: '#ef3b36', R: '#a81a1a', s: '#d0d0d8'}),
@@ -251,7 +253,7 @@ if (arcade) {
   let game;
   const reset = () => {
     game = {frames: 0, score: 0, distance: 0, speed: 1.5, lives: 3, combo: 0, balls: 0, items: [], parts: [], pops: [],
-      nextSpawn: 90, stage: 0, banner: 150, zoom: 0, invuln: 0, newBest: false,
+      nextSpawn: 90, stage: 0, banner: 150, zoom: 0, invuln: 0, newBest: false, big: false, grow: 0,
       dog: {y: GROUND, vy: 0, ground: true, jumps: 0, hold: 0, duck: false, ledge: null}};
   };
   reset();
@@ -286,6 +288,8 @@ if (arcade) {
     stomp: () => tone(700, 0.1, 'square', 0.05, 180),
     smash: () => tone(160, 0.12, 'square', 0.05, 900),
     hurt: () => tone(220, 0.35, 'sawtooth', 0.06, 55),
+    grow: () => [392, 523, 440, 587, 494, 659, 784].forEach((f, i) => tone(f, 0.07, 'square', 0.05, 0, i * 0.06)),
+    shrink: () => [784, 587, 659, 494, 523, 392].forEach((f, i) => tone(f, 0.07, 'square', 0.05, 0, i * 0.06)),
     life: () => [523, 784, 1047].forEach((f, i) => tone(f, 0.1, 'triangle', 0.08, 0, i * 0.08)),
     over: () => [523, 440, 349, 262].forEach((f, i) => tone(f, 0.22, 'square', 0.05, 0, i * 0.18))
   };
@@ -426,7 +430,7 @@ if (arcade) {
 
   // Spawn patterns: each returns how much horizontal room it used.
   const put = (kind, x, y, extra = {}) => game.items.push(Object.assign({kind, x, y, born: frame}, extra));
-  const size = {ball: [6, 6], bone: [10, 5], gold: [10, 5], pizza: [9, 8], heart: [7, 6], hydrant: [8, 12], squirrel: [10, 7], bee: [8, 5], puddle: [24, 3], bench: [44, 4]};
+  const size = {ball: [6, 6], bone: [10, 5], gold: [10, 5], pizza: [9, 8], taco: [11, 6], heart: [7, 6], hydrant: [8, 12], squirrel: [10, 7], bee: [8, 5], puddle: [24, 3], bench: [44, 4]};
   const patterns = [
     {weight: 3, from: 0, make: x => { put('hydrant', x, GROUND - 12); return 10; }},
     {weight: 2, from: 0, make: x => { put('puddle', x, GROUND - 3); return 26; }},
@@ -461,6 +465,7 @@ if (arcade) {
   const spawn = () => {
     const x = W + 8;
     if (!game.zoom && game.score > 250 && Math.random() < 0.05) { put('pizza', x, GROUND - 40); return 30; }
+    if (!game.big && game.score > 150 && Math.random() < 0.04) { put('taco', x, GROUND - 30); return 30; }
     if (game.lives < 3 && game.score > 600 && Math.random() < 0.025) { put('heart', x, GROUND - 52); return 30; }
     const open = patterns.filter(p => game.score >= p.from);
     let roll = Math.random() * open.reduce((sum, p) => sum + p.weight, 0);
@@ -471,9 +476,19 @@ if (arcade) {
   const hurt = () => {
     const dog = game.dog;
     if (game.invuln || game.zoom) return;
-    game.lives -= 1;
     game.combo = 0;
     game.invuln = 100;
+    // A taco's extra size is a free hit: Birdy shrinks back instead of losing a heart.
+    if (game.big) {
+      game.big = false;
+      game.grow = 40;
+      shake = 6;
+      sfx.shrink();
+      sparkle(BIRDY_X + 9, dog.y - 12, '#f2b33d');
+      announce('Ouch! Big Birdy shrinks back. No heart lost.');
+      return;
+    }
+    game.lives -= 1;
     shake = 12;
     sfx.hurt();
     sparkle(BIRDY_X + 9, dog.y - 6, '#ff3d8b');
@@ -502,6 +517,7 @@ if (arcade) {
     game.score += speed * 0.08;
     if (game.zoom) game.zoom -= 1;
     if (game.invuln) game.invuln -= 1;
+    if (game.grow) game.grow -= 1;
     if (game.banner) game.banner -= 1;
     const stage = STAGES.reduce((found, s, i) => (game.score >= s.at ? i : found), 0);
     if (stage !== game.stage) { game.stage = stage; game.banner = 150; sfx.life(); announce(STAGES[stage].name.replace(/\s+/g, ' ')); }
@@ -538,7 +554,9 @@ if (arcade) {
       game.nextSpawn = used + gap;
     }
 
-    const box = dog.duck ? {x: BIRDY_X + 4, y: dog.y - 6, w: 14, h: 6} : {x: BIRDY_X + 4, y: dog.y - 12, w: 11, h: 11};
+    // Big Birdy is twice the size standing, but still tucks low enough to duck under bees.
+    const box = dog.duck ? {x: BIRDY_X + 4, y: dog.y - 6, w: game.big ? 28 : 14, h: 6}
+      : game.big ? {x: BIRDY_X + 8, y: dog.y - 24, w: 22, h: 22} : {x: BIRDY_X + 4, y: dog.y - 12, w: 11, h: 11};
     for (const item of game.items) {
       item.x -= speed + (item.vx ? -item.vx : 0);
       if (item.kind === 'bee') item.y = GROUND - 15 + Math.round(Math.sin((frame - item.phase) / 9) * 2);
@@ -551,7 +569,12 @@ if (arcade) {
       else if (item.kind === 'bone') { item.dead = true; game.combo += 1; add(25, cx, item.y, '#fff6e0'); sfx.bone(); sparkle(cx, item.y, '#ffffff'); }
       else if (item.kind === 'gold') { item.dead = true; game.combo += 3; add(150, cx, item.y, '#ffe04a'); sfx.gold(); sparkle(cx, item.y, '#ffe04a'); }
       else if (item.kind === 'heart') { item.dead = true; game.lives = Math.min(3, game.lives + 1); pop(cx, item.y, '1UP', '#ff3d8b'); sfx.life(); }
-      else if (item.kind === 'pizza') {
+      else if (item.kind === 'taco') {
+        item.dead = true;
+        if (game.big) add(100, cx, item.y, '#f2b33d');
+        else { game.big = true; game.grow = 40; pop(cx, item.y, 'BIG BIRDY!', '#f2b33d'); announce('Taco! Big Birdy can take one extra hit.'); }
+        sfx.grow();
+      } else if (item.kind === 'pizza') {
         item.dead = true; game.zoom = 420; pop(cx, item.y, 'ZOOMIES!', '#ffd34d'); sfx.power(); shake = 6;
         announce('Pizza! Zoomies mode: Birdy is unstoppable for a few seconds.');
       } else if (item.kind === 'squirrel' && dog.vy > 0 && box.y + box.h - item.y < 7) {
@@ -637,7 +660,7 @@ if (arcade) {
       ctx.fillStyle = '#b5652b'; ctx.fillRect(x, y, 44, 3); ctx.fillRect(x, y - 6, 44, 2);
       ctx.fillStyle = '#7a3f17'; ctx.fillRect(x + 3, y + 3, 3, GROUND - y - 3); ctx.fillRect(x + 38, y + 3, 3, GROUND - y - 3); ctx.fillRect(x, y + 3, 44, 1);
     } else {
-      const bob = ['ball', 'bone', 'gold', 'pizza', 'heart'].includes(item.kind) ? Math.round(Math.sin((frame + item.x) / 10)) : 0;
+      const bob = ['ball', 'bone', 'gold', 'pizza', 'taco', 'heart'].includes(item.kind) ? Math.round(Math.sin((frame + item.x) / 10)) : 0;
       const image = Array.isArray(art[item.kind]) ? art[item.kind][Math.floor(frame / 8) % 2] : art[item.kind];
       ctx.drawImage(image, x, y + bob);
     }
@@ -660,9 +683,11 @@ if (arcade) {
     }
   };
 
-  const drawDog = (x, y, pose) => {
+  const drawDog = (x, y, pose, scale = 1) => {
     const image = pose === 'duck' ? birdy.duck : pose === 'jump' ? birdy.jump : birdy.run[Math.floor(frame / 6) % 2];
-    ctx.drawImage(image, x, y - image.height);
+    // A big duck stays 9px tall so bees still clear her.
+    const w = image.width * scale, h = pose === 'duck' && scale > 1 ? 9 : image.height * scale;
+    ctx.drawImage(image, x, y - h, w, h);
   };
 
   const render = () => {
@@ -680,7 +705,8 @@ if (arcade) {
         leaders.slice(0, 3).forEach((row, i) => text(`${i + 1}. ${row.initials}  ${String(row.score).padStart(6, '0')}`, W / 2, 82 + i * 7, ['#ffd23c', '#ffffff', '#ff9a3d'][i], 1, 'center'));
       } else {
         text('JUMP TWICE  DUCK BEES  STOMP SQUIRRELS', W / 2, 78, '#ffffff', 1, 'center');
-        text('GRAB PIZZA FOR RAINBOW ZOOMIES', W / 2, 88, '#ffd34d', 1, 'center');
+        text('GRAB PIZZA FOR RAINBOW ZOOMIES', W / 2, 87, '#ffd34d', 1, 'center');
+        text('TACOS MAKE BIRDY BIG', W / 2, 96, '#f2b33d', 1, 'center');
       }
       if (Math.floor(frame / 30) % 2 === 0) text('PRESS SPACE OR TAP TO PLAY', W / 2, 104, '#ffffff', 1, 'center');
       if (best) text('BEST ' + best, W / 2, 114, '#d7f53c', 1, 'center');
@@ -694,7 +720,9 @@ if (arcade) {
     const dog = game.dog;
     if (!(game.invuln && Math.floor(frame / 4) % 2)) {
       if (game.zoom && Math.floor(frame / 3) % 2) ctx.globalAlpha = 0.75;
-      drawDog(BIRDY_X, Math.round(dog.y), dog.duck ? 'duck' : dog.ground ? 'run' : 'jump');
+      // Growing or shrinking flickers between sizes, like a classic power-up.
+      const big = game.grow ? (Math.floor(game.grow / 4) % 2 ? !game.big : game.big) : game.big;
+      drawDog(BIRDY_X, Math.round(dog.y), dog.duck ? 'duck' : dog.ground ? 'run' : 'jump', big ? 2 : 1);
       ctx.globalAlpha = 1;
     }
     for (const p of game.pops) text(p.label, Math.round(p.x), Math.round(p.y) - 8, p.color, 1, 'center');
