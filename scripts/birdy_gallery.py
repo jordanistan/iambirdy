@@ -34,20 +34,24 @@ def render_gallery(media):
         if not isinstance(item.get('featured', False), bool):
             raise ValueError('Gallery featured must be a boolean')
         featured = ' data-featured="true"' if item.get('featured', False) else ''
+        if not isinstance(item.get('curated', False), bool):
+            raise ValueError('Gallery curated must be a boolean')
         src, thumb, alt, caption = map(escape, (src, thumb, item['alt'], item['caption']))
         badge = '<span class="grid-badge" aria-hidden="true">▶ Video</span>' if kind == 'video' else ''
+        # Show reviewed descriptions on the page, not only after the viewer opens.
+        visible_caption = f'<p class="grid-caption">{caption}</p>' if item.get('curated', False) else ''
         tiles.append(f'<li class="grid-item" data-kind="{kind}" data-collection="{collection}"{featured}><a class="grid-thumb" href="{src}" data-type="{kind}" '
                      f'data-caption="{caption}" target="_blank" rel="noopener noreferrer">'
-                     f'<img src="{thumb}" alt="{alt}" loading="lazy" decoding="async">{badge}</a></li>')
+                     f'<img src="{thumb}" alt="{alt}" loading="lazy" decoding="async">{badge}</a>{visible_caption}</li>')
     total = len(media)
     videos = sum(item.get('type') == 'video' for item in media)
     birdy = sum(item.get('collection', 'birdy') == 'birdy' for item in media)
     instagram = total - birdy
     featured_count = sum(item.get('featured', False) for item in media)
     return ('<section class="section" id="photos" aria-labelledby="photos-heading">'
-            '<p class="kicker">THE ORIGINAL CO-PILOT / PHOTO WALL</p>'
-            '<h2 id="photos-heading">Life with Birdy.</h2>'
-            f'<p class="micro" id="photo-wall-help">{total} photos and videos in the full archive. Start with Birdy’s own album, explore hand-picked highlights, or browse the wider Instagram archive. Pick any one to see it full size, then use arrows, arrow keys or a swipe.</p>'
+            '<p class="kicker">BIRDY UNFILTERED / THE PHOTO ALBUM</p>'
+            '<h2 id="photos-heading">The good, the goofy &amp; everything in between.</h2>'
+            f'<p class="micro" id="photo-wall-help">Bluebonnets, boat rides, blanket forts, birthday pizza and a ridiculous number of great faces. There are {total} photos and videos here because Birdy never makes it easy to choose just one. Start with her album, pick the highlights, or explore the whole collection. Open a photo to flip through with arrows or a swipe.</p>'
             '<div class="gallery-tools" data-gallery-tools hidden><div class="filterbar" role="group" aria-label="Show">'
             f'<button type="button" data-gallery-filter="all" aria-pressed="true">All <span>{total}</span></button>'
             f'<button type="button" data-gallery-filter="image" aria-pressed="false">Photos <span>{total - videos}</span></button>'
@@ -71,4 +75,4 @@ def render_gallery(media):
             '<button class="button secondary" type="button" data-lightbox-next aria-label="Next photo">→</button></div></dialog>'
             f'<div class="actions"><a class="button secondary" href="https://www.instagram.com/nerdy.dirty.birdy/" target="_blank" rel="noopener noreferrer">More on @nerdy.dirty.birdy ↗</a>'
             f'<a class="button secondary" href="{ALBUM}" target="_blank" rel="noopener noreferrer">Google Photos album ↗</a></div>'
-            '<p class="micro">Public copies are optimized for the web and stripped of embedded metadata.</p></section>')
+            '</section>')

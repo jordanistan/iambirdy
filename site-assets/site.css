@@ -171,3 +171,11 @@ html.arcade-open,html.arcade-open body{overflow:hidden}
 .initials input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .initials .micro{color:#ffc2da;margin:8px 0 0;max-width:none}
 @media(max-width:900px){.scoreboard{grid-column:1;grid-row:auto;margin-top:24px}}
+
+/* Reviewed Birdy photo descriptions are visible below the thumbnail, not hidden in the dialog. */
+.grid-caption{font-size:.78rem;line-height:1.45;color:var(--ink);margin:7px 3px 14px;max-width:36ch}
+@media(max-width:540px){
+  .birdy .photo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .birdy .grid-caption{font-size:.77rem;margin:7px 1px 12px}
+}
+@media print{.grid-caption{font-size:10pt}}
