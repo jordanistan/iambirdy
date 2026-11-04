@@ -28,21 +28,35 @@ def render_gallery(media):
         thumb = item.get('thumb', src if kind == 'image' else '')
         if thumb != src and not re.fullmatch(THUMB, thumb):
             raise ValueError('Gallery thumbnails must be checked-in WebP previews')
+        collection = item.get('collection', 'birdy')
+        if collection not in ('birdy', 'instagram'):
+            raise ValueError('Gallery collection must be Birdy or Instagram')
+        if not isinstance(item.get('featured', False), bool):
+            raise ValueError('Gallery featured must be a boolean')
+        featured = ' data-featured="true"' if item.get('featured', False) else ''
         src, thumb, alt, caption = map(escape, (src, thumb, item['alt'], item['caption']))
         badge = '<span class="grid-badge" aria-hidden="true">▶ Video</span>' if kind == 'video' else ''
-        tiles.append(f'<li class="grid-item" data-kind="{kind}"><a class="grid-thumb" href="{src}" data-type="{kind}" '
+        tiles.append(f'<li class="grid-item" data-kind="{kind}" data-collection="{collection}"{featured}><a class="grid-thumb" href="{src}" data-type="{kind}" '
                      f'data-caption="{caption}" target="_blank" rel="noopener noreferrer">'
                      f'<img src="{thumb}" alt="{alt}" loading="lazy" decoding="async">{badge}</a></li>')
     total = len(media)
     videos = sum(item.get('type') == 'video' for item in media)
+    birdy = sum(item.get('collection', 'birdy') == 'birdy' for item in media)
+    instagram = total - birdy
+    featured_count = sum(item.get('featured', False) for item in media)
     return ('<section class="section" id="photos" aria-labelledby="photos-heading">'
             '<p class="kicker">THE ORIGINAL CO-PILOT / PHOTO WALL</p>'
             '<h2 id="photos-heading">Life with Birdy.</h2>'
-            f'<p class="micro" id="photo-wall-help">{total} photos and videos. Pick any one to see it full size, then use the arrows, arrow keys or a swipe to keep going.</p>'
+            f'<p class="micro" id="photo-wall-help">{total} photos and videos in the full archive. Start with Birdy’s own album, explore hand-picked highlights, or browse the wider Instagram archive. Pick any one to see it full size, then use arrows, arrow keys or a swipe.</p>'
             '<div class="gallery-tools" data-gallery-tools hidden><div class="filterbar" role="group" aria-label="Show">'
             f'<button type="button" data-gallery-filter="all" aria-pressed="true">All <span>{total}</span></button>'
             f'<button type="button" data-gallery-filter="image" aria-pressed="false">Photos <span>{total - videos}</span></button>'
-            f'<button type="button" data-gallery-filter="video" aria-pressed="false">Videos <span>{videos}</span></button></div></div>'
+            f'<button type="button" data-gallery-filter="video" aria-pressed="false">Videos <span>{videos}</span></button></div>'
+            '<div class="filterbar" role="group" aria-label="Collection">'
+            f'<button type="button" data-gallery-collection="birdy" aria-pressed="true">Birdy’s album <span>{birdy}</span></button>'
+            f'<button type="button" data-gallery-collection="featured" aria-pressed="false">Highlights <span>{featured_count}</span></button>'
+            f'<button type="button" data-gallery-collection="instagram" aria-pressed="false">Instagram archive <span>{instagram}</span></button>'
+            f'<button type="button" data-gallery-collection="all" aria-pressed="false">Everything <span>{total}</span></button></div></div>'
             f'<ul class="photo-grid" data-gallery data-batch="{BATCH}" aria-describedby="photo-wall-help">' + ''.join(tiles) + '</ul>'
             '<div class="gallery-more" data-gallery-more hidden><p class="micro" data-gallery-status role="status" aria-live="polite"></p>'
             '<button class="button" type="button" data-gallery-next>Show more</button>'
