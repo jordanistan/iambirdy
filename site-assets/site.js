@@ -50,8 +50,12 @@ if (grid) {
   const status = more.querySelector('[data-gallery-status]');
   const nextBatch = more.querySelector('[data-gallery-next]');
   let filter = 'all';
+  let collection = 'birdy';
   let limit = batch;
-  const matching = () => items.filter(item => filter === 'all' || item.dataset.kind === filter);
+  const matching = () => items.filter(item => 
+    (filter === 'all' || item.dataset.kind === filter) &&
+    (collection === 'all' || (collection === 'featured' ? item.dataset.featured === 'true' : item.dataset.collection === collection))
+  );
   const render = () => {
     const shown = matching();
     items.forEach(item => { item.hidden = true; });
@@ -62,10 +66,12 @@ if (grid) {
     more.querySelectorAll('button').forEach(button => { button.hidden = count >= shown.length; });
   };
   tools.addEventListener('click', event => {
-    const button = event.target.closest('button[data-gallery-filter]');
+    const button = event.target.closest('button[data-gallery-filter], button[data-gallery-collection]');
     if (!button) return;
-    tools.querySelectorAll('button').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
-    filter = button.dataset.galleryFilter;
+    const attribute = button.hasAttribute('data-gallery-filter') ? 'data-gallery-filter' : 'data-gallery-collection';
+    tools.querySelectorAll('button[' + attribute + ']').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    if (attribute === 'data-gallery-filter') filter = button.dataset.galleryFilter;
+    else collection = button.dataset.galleryCollection;
     limit = batch;
     render();
   });
@@ -111,7 +117,10 @@ if (grid) {
   const open = item => {
     if (!matching().includes(item)) {
       filter = 'all';
-      tools.querySelectorAll('button').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.galleryFilter === 'all')));
+      collection = 'all';
+      tools.querySelectorAll('button[data-gallery-filter]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.galleryFilter === 'all')));
+      tools.querySelectorAll('button[data-gallery-collection]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.galleryCollection === 'all')));
+      limit = Math.max(batch, items.indexOf(item) + 1);
       render();
     }
     sequence = matching();
