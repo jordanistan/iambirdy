@@ -49,3 +49,14 @@
 - Linked from the home hero, the existing “Can I support Birdy?” FAQ (replacing the outdated “planning a GoFundMe” text), and footer. Donation processing remains entirely off-site, with `target="_blank" rel="noopener noreferrer"` and no embedded checkout, script, tracker, collected payments, amounts, or unverified medical claims.
 - The short URL uses GoFundMe's official domain but its live redirect and fundraiser contents could not be independently loaded from this environment; the site does not state a goal, total, or specific expenses.
 - Release gate: require GitHub Actions Pages validation and security checks, merge, and post-merge deployment confirmation before claiming it is live. No visual redesign or media modifications.
+
+## Birdy editorial rewrite and photo-caption visibility — 2026-11-04
+
+- Owner flagged stale, generic public-facing editorial content and an inaccurate emphasis on a pink collar in the photo mosaic. Corrective branch `codex/birdy-story-photo-editorial-20261104`.
+- Rewrote hero intro, co-pilot story, three illustrated Behind the Photos cards, Who Is Birdy / What Is This Journal FAQs, and Instagram invitation in `index.html`. Copy reflects supplied details: female red heeler–Lab mix, approximately 86 lb, responsive to "tacos", loves outings and company. Image-specific stories are anchored in inspected thumbnails: bluebonnets, bunny ears, lake dock, birthday pizza (text visible on photo), rainbow arches, and camping by the tent.
+- Replaced stock photo-wall intro in `scripts/birdy_gallery.py` and removed the public-facing metadata processing sentence from renderer and checked-in HTML.
+- Visually reviewed 34 additional image thumbnails and wrote accurate alt and personalized captions. There are now 59 reviewed and visibly captioned image tiles out of 589 total items; the other entries remain in the archive with cautious text until personally inspected. No unsupported place/date claims. 478 photos and 111 videos remain untouched as media.
+- For reviewed photos only, the gallery now renders an accessible, readable text caption beneath each thumbnail; CSS uses two photo columns on small screens so text stays legible. Lightbox captions remain.
+- Rebuilt the checked-in `index.html` gallery markup from the manifest to prevent the previous source/deployed HTML mismatch. The existing Pages stage continues to regenerate it and content-hashed CSS/JS.
+- Regression test `scripts/test_gallery_curation.py` now requires 59 displayed captions, new editorial copy, and no retired stock copy.
+- Publish evidence pending PR checks, merge and successful post-merge Pages run. Central `illnetwork/portfolio` production generator still needs editorial sync; no unrelated site changes.
