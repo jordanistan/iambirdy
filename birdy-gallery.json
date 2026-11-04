@@ -6,7 +6,8 @@
     "alt": "Birdy, a speckled brown and white dog wearing a pink collar, looking toward the camera outdoors",
     "caption": "Meet Birdy. The original photo from her website.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-daac8c425b97ccf6.webp",
@@ -15,7 +16,8 @@
     "alt": "Birdy asleep across a dark car back seat wearing a red bandana",
     "caption": "A back-seat nap, red bandana and all.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-1c7b8328169da9b6.webp",
@@ -24,7 +26,8 @@
     "alt": "Birdy standing on dirt outdoors with her mouth open and tongue out",
     "caption": "A happy pause outdoors, with ears up and that unmistakable Birdy grin.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-97f97ce293ccc4ff.webp",
@@ -33,7 +36,8 @@
     "alt": "Birdy sitting on bright green turf with one ear upright and her tongue out",
     "caption": "Sitting pretty on the grass, one ear up and one big smile.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-3c880b659b37ec75.webp",
@@ -42,7 +46,8 @@
     "alt": "Birdy crouching playfully on green turf with her front paws stretched forward",
     "caption": "Front paws out, tail up: Birdy looks ready for play.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-c8cb11d189562369.webp",
@@ -50,7 +55,8 @@
     "thumb": "site-assets/gallery/thumbs/birdy-c8cb11d189562369.webp",
     "alt": "Birdy standing on green turf and looking at the camera with her tongue out",
     "caption": "A little sunshine, a lot of grass, and Birdy taking it all in.",
-    "collection": "birdy"
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-3c335e4a80a3bc6d.webp",
@@ -59,7 +65,8 @@
     "alt": "Close-up of Birdy resting her head on soft carpet indoors",
     "caption": "The close-up that says a quiet moment can be a favorite adventure too.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-e80e2e60117724cd.webp",
@@ -67,7 +74,8 @@
     "thumb": "site-assets/gallery/thumbs/birdy-e80e2e60117724cd.webp",
     "alt": "Birdy standing outside on dirt, her mouth open and tail lifted",
     "caption": "Standing tall outdoors and looking pleased with herself.",
-    "collection": "birdy"
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-778e46ab92da8ea5.webp",
@@ -76,7 +84,8 @@
     "alt": "Birdy looking up at the camera on a wood-chip surface with her tongue out",
     "caption": "Straight-up enthusiasm, captured from above.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-cd9563bc28caf97b.webp",
@@ -85,7 +94,8 @@
     "alt": "Birdy panting outdoors while another speckled dog stands behind her",
     "caption": "Birdy up front, another smiling dog in the background.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-104c08446d605f15.webp",
@@ -94,7 +104,8 @@
     "alt": "Birdy standing in a shaded outdoor dog area with chairs and another dog nearby",
     "caption": "Birdy exploring an outdoor hangout, with a second dog in the distance.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-ba4fe5fc009a7804.webp",
@@ -103,7 +114,8 @@
     "alt": "Birdy standing in deep snow at night wearing a yellow collar",
     "caption": "Snow underfoot and an unmistakably curious look back at the camera.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-a00ea31efdbf14c9.webp",
@@ -112,7 +124,8 @@
     "alt": "Birdy lying on a wooden floor with front paws stretched forward, looking up",
     "caption": "From the floor, Birdy has her eyes on the camera.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-e021be6c28d2adbb.webp",
@@ -120,7 +133,8 @@
     "thumb": "site-assets/gallery/thumbs/birdy-e021be6c28d2adbb.webp",
     "alt": "Birdy viewed from behind while standing in fresh snow at night",
     "caption": "A snowy scene, with Birdy checking out the footprints ahead.",
-    "collection": "birdy"
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-c7733c433e0beea4.webp",
@@ -129,7 +143,8 @@
     "alt": "Birdy holding a blue-and-white soccer ball in her mouth on a red rug",
     "caption": "Ball secured. Birdy clearly has the next move.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-d97d0e01e7d4cd99.webp",
@@ -138,7 +153,8 @@
     "alt": "Birdy lying in the shade under a picnic table with her tongue out",
     "caption": "The perfect shady spot beneath a picnic table.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-038a17ba5a4a33bf.webp",
@@ -146,7 +162,8 @@
     "thumb": "site-assets/gallery/thumbs/birdy-038a17ba5a4a33bf.webp",
     "alt": "Birdy stretching out under a picnic table beside a tree in a grassy area",
     "caption": "A well-earned break under the picnic table.",
-    "collection": "birdy"
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-6e694c55126d135a.webp",
@@ -155,7 +172,8 @@
     "alt": "Birdy holding a carrot between her paws on a sofa",
     "caption": "Carrot snack time, with Birdy's paws doing all the work.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-dc2f0dc1f0dcb4f0.webp",
@@ -164,7 +182,8 @@
     "alt": "Birdy asleep stretched across a sofa cushion",
     "caption": "A full-body sofa nap after a full day of being Birdy.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-ad931a43c7dc7ed9.webp",
@@ -172,7 +191,8 @@
     "thumb": "site-assets/gallery/thumbs/birdy-ad931a43c7dc7ed9.webp",
     "alt": "Birdy looking up from a sofa while holding a carrot between her paws",
     "caption": "Birdy pauses mid-carrot for the camera.",
-    "collection": "birdy"
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-bfc2c29ed50059d1.webp",
@@ -180,23 +200,26 @@
     "thumb": "site-assets/gallery/thumbs/birdy-bfc2c29ed50059d1.webp",
     "alt": "Birdy inspecting a carrot held between her front paws on a sofa",
     "caption": "Serious focus on a carrot snack.",
-    "collection": "birdy"
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-a9d74510492fa1a6.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-a9d74510492fa1a6.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "A close-up of Birdy under deep violet lighting with her ears lifted",
+    "caption": "Under purple light, the familiar curious face and those unmistakable ears.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-2a8da275da01d573.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-2a8da275da01d573.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy tilting her head toward the camera under purple lighting",
+    "caption": "A head tilt caught in purple light. She never misses a chance to investigate the camera.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-69fc642ee68b6b2f.webp",
@@ -205,23 +228,26 @@
     "alt": "Birdy holding a bright yellow knitted toy in her mouth",
     "caption": "A yellow toy, a pink collar, and a very determined expression.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-75910f640190045e.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-75910f640190045e.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Side profile of Birdy wearing a pink collar under blue-violet lighting",
+    "caption": "That speckled profile, glowing blue and purple.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-7f03b7e7a8a4e3f3.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-7f03b7e7a8a4e3f3.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy facing the camera under purple lighting with one ear raised",
+    "caption": "The late-night portrait: ears up, eyes on the camera.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-70d89e26d35a91f6.webp",
@@ -230,31 +256,35 @@
     "alt": "Birdy looking up happily beside a black dog on a concrete floor",
     "caption": "A huge grin from Birdy, with another dog nearby.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-cb0c6df1669d94c0.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-cb0c6df1669d94c0.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy standing among several other dogs in a large indoor play area",
+    "caption": "In the middle of the crowd: a room full of dogs and plenty to look at.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-ad51c3b3050d1213.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-ad51c3b3050d1213.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy sitting on a dark couch in a yellow bandana, looking left",
+    "caption": "Yellow bandana on; something off-camera has her attention.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-3fa188bab624f6cb.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-3fa188bab624f6cb.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy sitting on a couch wearing a yellow bandana and giving the camera a tilted look",
+    "caption": "That head tilt deserves a portrait of its own.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-c56fa896a0d3045b.webp",
@@ -263,39 +293,44 @@
     "alt": "Birdy lounging on a sofa wearing a yellow neckerchief",
     "caption": "A cozy sofa portrait with the yellow bandana and a signature head tilt.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-f120a992613deecc.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-f120a992613deecc.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy sitting upright on a couch in a yellow bandana with one ear out to the side",
+    "caption": "Same yellow bandana, different expression. The ears do half the talking.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-39e15b9bfb1c6386.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-39e15b9bfb1c6386.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy sitting on a couch with her paws over the edge, wearing a yellow bandana",
+    "caption": "Two paws hanging over the couch. Birdy has settled in.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-9e80724d2d38c66d.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-9e80724d2d38c66d.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy peering over the rail of a boat wearing a red bandana",
+    "caption": "Red bandana, water all around, and a view worth stopping for.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-9f5a721c4cd60a42.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-9f5a721c4cd60a42.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy standing indoors in a red bandana and looking directly at the camera",
+    "caption": "The red-bandana portrait, with both ears doing their own thing.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-b0a9ed2be53ae857.webp",
@@ -304,39 +339,44 @@
     "alt": "Birdy looking out toward the water from the deck of a boat",
     "caption": "Out on the water: Birdy takes in the view from a boat.",
     "collection": "birdy",
-    "featured": true
+    "featured": true,
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-ef9d1edfc7e6fb8c.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-ef9d1edfc7e6fb8c.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy looking over the side of a boat toward a wide lake",
+    "caption": "Birdy watches the lake pass by from the boat.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-245078171d140b3a.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-245078171d140b3a.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy in a red bandana leaning toward the open lake view from a boat",
+    "caption": "Ears in the breeze and eyes on the water.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-b6c35b518c413877.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-b6c35b518c413877.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy wearing a white recovery cone and sitting on bedding indoors",
+    "caption": "Birdy in her big white recovery cone, still managing a smile for the camera.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-b1ac02a0226a69cb.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-b1ac02a0226a69cb.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy resting on a blanket indoors while wearing a white recovery cone",
+    "caption": "Even with a cone on, she can find a spot to lie down.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-8ad126fc4edad7c0.webp",
@@ -350,41 +390,46 @@
     "src": "site-assets/gallery/birdy-2072a6c99c949cd8.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-2072a6c99c949cd8.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy holding a bone-shaped dog treat in her mouth while wearing a red bandana",
+    "caption": "Treat secured. Birdy, red bandana, and the most serious eyes.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-f43ea8896c6424ca.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-f43ea8896c6424ca.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Close-up of Birdy's speckled face with one ear raised indoors",
+    "caption": "A close-up of the look that usually means she's paying attention.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-3ce5fab8dd9f96d8.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-3ce5fab8dd9f96d8.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy investigating a dog chew on tile flooring while wearing a red bandana",
+    "caption": "A chew on the floor and Birdy on the case. Nothing else matters in this frame.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-034d890bbd4677d4.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-034d890bbd4677d4.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy tucked beneath a blanket with her head resting on a pillow",
+    "caption": "Blanket, pillow, and absolutely no plans to move.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-b62394e3f75ab793.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-b62394e3f75ab793.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy looking up under soft blue and green lighting indoors",
+    "caption": "Blue-green lights catch Birdy's face and those famously expressive ears.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-aed953d83839f48b.webp",
@@ -406,9 +451,10 @@
     "src": "site-assets/gallery/birdy-9dc122b02e1a762f.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-9dc122b02e1a762f.webp",
-    "alt": "Photo from Birdy's collection",
-    "caption": "A moment from Birdy's photo collection.",
-    "collection": "birdy"
+    "alt": "Birdy sitting on a patterned couch beside a pillow marked Reserved for the Dog",
+    "caption": "The couch says it best: reserved for the dog.",
+    "collection": "birdy",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-cfa707cbe6fcca54.webp",
@@ -2918,9 +2964,10 @@
     "src": "site-assets/gallery/birdy-0adba4aa58363d84.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-0adba4aa58363d84.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy play-bowing toward a slice of pizza with Happy birthday Birdy and 8 years old text on the photograph",
+    "caption": "Eight years old, birthday wishes on the picture, and her eyes locked on that slice of pizza.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-ae2b2dee905133f3.webp",
@@ -3494,9 +3541,10 @@
     "src": "site-assets/gallery/birdy-196f9c2ee285947c.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-196f9c2ee285947c.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy walking beneath a series of rainbow-colored arches in a grassy park",
+    "caption": "Under the rainbow arches, Birdy has already spotted the next patch of grass.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-fefbfb78a88f8a33.webp",
@@ -3550,9 +3598,10 @@
     "src": "site-assets/gallery/birdy-1b3063cff472e209.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-1b3063cff472e209.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy sitting among blooming bluebonnets with her eyes closed and tongue out",
+    "caption": "Bluebonnets everywhere, eyes half closed, and a tongue-out grin. Birdy knows how to enjoy the moment.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-f706ff5a8836ed82.webp",
@@ -3590,9 +3639,10 @@
     "src": "site-assets/gallery/birdy-c8a45862d75e2e5d.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-c8a45862d75e2e5d.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy sitting in the grass wearing oversized pink bunny ears",
+    "caption": "Pink bunny ears weren't her idea, but she stayed for the picture.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-16528e35e6770d01.webp",
@@ -4046,9 +4096,10 @@
     "src": "site-assets/gallery/birdy-c1cced9bcf5b4ec9.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-c1cced9bcf5b4ec9.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy sitting on a long dock surrounded by lake water",
+    "caption": "One dog, one very long dock, and a whole lake waiting at the end.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-b0b880ab3b8fcdd1.webp",
@@ -4062,9 +4113,10 @@
     "src": "site-assets/gallery/birdy-3db494ce407e9103.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-3db494ce407e9103.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy curled on a striped camping blanket in front of a yellow and gray tent",
+    "caption": "Tent pitched, blanket down, Birdy settled in. That's our kind of campsite photo.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-f0cedbb1938f91a7.webp",
@@ -4174,9 +4226,10 @@
     "src": "site-assets/gallery/birdy-2759080e51f52dd1.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-2759080e51f52dd1.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Close-up of Birdy's face with bright eyes, open mouth and tongue out",
+    "caption": "If you ever wonder what Birdy's happy face looks like, here it is up close.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-4d23b591340d27e3.webp",
@@ -4222,9 +4275,10 @@
     "src": "site-assets/gallery/birdy-c23778ad4aafeb7e.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-c23778ad4aafeb7e.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy stretched across a raised dog-play platform above an orange tunnel",
+    "caption": "Front paws over the edge, tongue out, queen of the dog-park platform.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-12fab1179d042ae3.webp",
@@ -4334,9 +4388,10 @@
     "src": "site-assets/gallery/birdy-5b3cc275d906775f.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-5b3cc275d906775f.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy standing on the steps of a wooden dog-play structure near an iced drink under a shade sail",
+    "caption": "Birdy claims the steps of a wooden play structure while a cold drink waits nearby.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-9a9a0b16b220c2bd.webp",
@@ -4470,9 +4525,10 @@
     "src": "site-assets/gallery/birdy-df1cd626cf651b34.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-df1cd626cf651b34.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy looking up on green turf with one ear up and her tongue out",
+    "caption": "That face says everything: she's alert, smiling, and ready for whatever comes next.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-39121a66f72bb18f.webp",
@@ -4590,9 +4646,10 @@
     "src": "site-assets/gallery/birdy-688bb4d0873f244d.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-688bb4d0873f244d.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy sitting on a red wooden deck in the sunshine with her tongue out",
+    "caption": "Sunshine on the deck and a big tongue-out grin.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-be88770a3ac29ecc.webp",
@@ -4662,9 +4719,10 @@
     "src": "site-assets/gallery/birdy-8b339fb6872cb533.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-8b339fb6872cb533.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy lying proudly on a raised wooden platform over an orange NEIGHBORS tunnel",
+    "caption": "Birdy lounging on top of the orange tunnel like she owns the place.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-1038b7e77d438e2e.webp",
@@ -4694,9 +4752,10 @@
     "src": "site-assets/gallery/birdy-9e814da7160ba448.webp",
     "type": "image",
     "thumb": "site-assets/gallery/thumbs/birdy-9e814da7160ba448.webp",
-    "alt": "Photo from Birdy's Instagram",
-    "caption": "A photo from @nerdy.dirty.birdy on Instagram.",
-    "collection": "instagram"
+    "alt": "Birdy lying in the grass near a tree with her mouth open and tongue out",
+    "caption": "A shady spot under a tree, a grin, and a chance to catch her breath.",
+    "collection": "instagram",
+    "curated": true
   },
   {
     "src": "site-assets/gallery/birdy-b163a32b07969688.webp",
