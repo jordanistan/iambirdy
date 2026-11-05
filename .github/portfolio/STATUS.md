@@ -60,3 +60,10 @@
 - Rebuilt the checked-in `index.html` gallery markup from the manifest to prevent the previous source/deployed HTML mismatch. The existing Pages stage continues to regenerate it and content-hashed CSS/JS.
 - Regression test `scripts/test_gallery_curation.py` now requires 59 displayed captions, new editorial copy, and no retired stock copy.
 - Publish evidence pending PR checks, merge and successful post-merge Pages run. Central `illnetwork/portfolio` production generator still needs editorial sync; no unrelated site changes.
+
+## Fi referral link — 2026-11-04
+
+- Owner provided the Fi referral URL `https://shop.tryfi.com/r/3FFQR3/?utm_source=referrals&type=dog` with the advertised offer of $20 off and one free month of Fi membership.
+- Added a concise referral section near the FAQ, an FAQ entry, and footer link on `index.html`, preserving the existing design. Includes disclosure that Birdy's household may receive a reward and that Fi controls eligibility and current terms.
+- No Fi scripts, embeds, trackers, purchase capture or membership activation were added to the site. No guarantee of eligibility or automatic redemption.
+- Verify PR checks, merge and post-merge Pages deployment. Exact offer terms should be rechecked with Fi periodically.
